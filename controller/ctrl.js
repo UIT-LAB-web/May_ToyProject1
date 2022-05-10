@@ -3,7 +3,6 @@
 const model = require("../model/user");
 const bkfd2Password = require('../middlewares/pbk');
 const find = require("../middlewares/find");
-log("ttttttttttttt")
 
 const output = {
     main: (req, res) => {
