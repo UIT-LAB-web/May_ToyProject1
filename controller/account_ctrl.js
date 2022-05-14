@@ -96,10 +96,12 @@ const process = {
             };
             const get_id = await model.find_id(parameter);
             console.log(get_id);
+            const get_id_ = JSON.stringify(get_id);
+            const get_id__ = get_id_.slice(8, get_id_.length-3);
             const emailParameter = {
                 toEmail: parameter.email,
                 subject: "Find your Id",
-                text: "Yout ID: " + get_id
+                text: "Your ID: " + get_id__
             };
             await find.find_id(emailParameter);
             res.status(200).send("이메일 발송 완료");
@@ -118,11 +120,15 @@ const process = {
                 toEmail: parameter.email,
                 subject: "Temporary Password"
             };
-            await find.find_pw(emailParameter);
+            const get_pw = await find.find_pw(emailParameter);
             res.status(200).send("이메일 발송 완료");
-            //메일로 보낸 암호를 암호화해서 유저 디비에 넣기
-
-
+            parameter.pw = get_pw.text.slice(20, 29);
+            const pbk = await bkfd2Password.encryption(parameter);
+            console.log(pbk);
+            parameter.pw = pbk.hash;
+            parameter.salt = pbk.salt;
+            const result = await model.chang_pw(parameter);
+            console.log(result);
         } catch (err) {
             console.log("아이디 혹은 이메일이 다릅니다");
             throw err;
@@ -130,24 +136,24 @@ const process = {
     },
     change_pw: async (req, res) => {
         try {
-            //임시 비밀번호, 새 비밀번호, 비밀번호 확인
             const parameter = {
-                "temporary_pw": req.body.pw,
+                "id": req.body.id,
+                "pw": req.body.pw,
                 "new_pw": req.body.new_pw,
                 "new_pw_check" :req.body.new_pw_check
             };
-            //if 유저 디비에 있는 값과 입력한 임시비번이 같은지
-            if(model.signup_data.pw == parameter.temporary_pw) {
-                //if 새 비번과 비번확인이 같은지
-                if(parameter.new_pw == parameter.new_pw_check) {
-                    //새 비번을 유저 디비에 업데이트
-                }
-                else {
-                    console.log("비밀번호 다름");
-                }
+            const result = await model.login_data(parameter);
+            const hash = result[0].pw;
+            const salt = result[0].salt;
+            const pbk = await bkfd2Password.decryption(parameter.pw, salt, hash);
+            console.log(pbk);
+            if(parameter.new_pw == parameter.new_pw_check) {
+                parameter.pw = parameter.new_pw;
+                const result = await model.chang_pw(parameter);
+                console.log(result);
             }
             else {
-                console.log("임시 비밀번호 틀림");
+                console.log("비밀번호 다름");
             }
         } catch(err) {
             console.log("비밀번호 틀림");

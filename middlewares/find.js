@@ -2,6 +2,7 @@
 
 const model = require("../model/user");
 const nodemailer = require('nodemailer');
+const bkfd2Password = require('../middlewares/pbk');
 
 const find_pw = (parameter) => {
     return new Promise((resolve, reject) => {
@@ -13,15 +14,6 @@ const find_pw = (parameter) => {
             randomString += variable[Math.floor(Math.random()*variable.length)];
             return randomString;
         };
-        const param = {
-            parameter,
-            randomString
-        };
-        const pbk = await bkfd2Password.encryption(param);
-        console.log(pbk);
-        parameter.pw = pbk.hash;
-        parameter.salt = pbk.salt;
-        await model.update_pw(param);
         const transporter = nodemailer.createTransport({ 
             service: 'gmail',
             auth: {

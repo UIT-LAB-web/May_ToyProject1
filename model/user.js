@@ -1,6 +1,5 @@
 "use strict";
 
-const find = require("../middlewares/find");
 const db = require('../config/dbConn');
 
 const signup_data = (parameter) => {
@@ -45,15 +44,9 @@ const find_id = (parameter) => {
     })
 }
 
-const update_pw = (parameter) => {
-    return new Promise((resolve, reject) => {
-        db.query('UPDATE pw FROM member where ')
-    })
-}
-
 const chang_pw = (parameter) => {
     return new Promise((resolve, reject) => {
-        db.query('UPDATE member SET pw, salt where = ?',[parameter.pw, parameter.salt], (err, db_data) => {
+        db.query('UPDATE member SET pw = ?, salt = ? where id = ?',[parameter.pw, parameter.salt, parameter.id], (err, db_data) => {
             if(db_data) {
                 resolve(db_data);
             }
@@ -68,6 +61,5 @@ module.exports = {
     signup_data,
     login_data,
     find_id,
-    update_pw,
     chang_pw
 }
