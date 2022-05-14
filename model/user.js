@@ -31,7 +31,7 @@ const login_data = (parameter) => {
     })
 }
 
-const find_id = (parameter) => {
+const find_id_data = (parameter) => {
     return new Promise((resolve, reject) => {
         db.query('SELECT id FROM member where email = ?', [parameter.email], (err, db_data) => {
             if(db_data) {
@@ -44,7 +44,7 @@ const find_id = (parameter) => {
     })
 }
 
-const chang_pw = (parameter) => {
+const change_pw_data = (parameter) => {
     return new Promise((resolve, reject) => {
         db.query('UPDATE member SET pw = ?, salt = ? where id = ?',[parameter.pw, parameter.salt, parameter.id], (err, db_data) => {
             if(db_data) {
@@ -60,6 +60,6 @@ const chang_pw = (parameter) => {
 module.exports = {
     signup_data,
     login_data,
-    find_id,
-    chang_pw
+    find_id_data,
+    change_pw_data
 }

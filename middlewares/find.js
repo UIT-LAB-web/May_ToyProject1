@@ -1,10 +1,8 @@
 "use strict";
 
-const model = require("../model/user");
 const nodemailer = require('nodemailer');
-const bkfd2Password = require('../middlewares/pbk');
 
-const find_pw = (parameter) => {
+const send_temporary_pw = (parameter) => {
     return new Promise((resolve, reject) => {
         var variable = "0,1,2,3,4,5,6,7,8,9,a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z".split(","); 
         var randomPassword = createRandomPassword(variable, 8);
@@ -38,7 +36,7 @@ const find_pw = (parameter) => {
     });
 }
 
-const find_id = (parameter) => {
+const send_id = (parameter) => {
     return new Promise((resolve, reject) => {
         const transporter = nodemailer.createTransport({
             service: 'gmail',
@@ -65,6 +63,6 @@ const find_id = (parameter) => {
 }
 
 module.exports = {
-    find_id,
-    find_pw
+    send_id,
+    send_temporary_pw
 }

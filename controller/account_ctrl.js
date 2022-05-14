@@ -94,7 +94,7 @@ const process = {
             const parameter = {
                 "email": req.body.email
             };
-            const get_id = await model.find_id(parameter);
+            const get_id = await model.find_id_data(parameter);
             console.log(get_id);
             const get_id_ = JSON.stringify(get_id);
             const get_id__ = get_id_.slice(8, get_id_.length-3);
@@ -103,7 +103,7 @@ const process = {
                 subject: "Find your Id",
                 text: "Your ID: " + get_id__
             };
-            await find.find_id(emailParameter);
+            await find.send_id(emailParameter);
             res.status(200).send("이메일 발송 완료");
         } catch (err) {
             console.log("아이디 찾기 실패");
@@ -120,14 +120,14 @@ const process = {
                 toEmail: parameter.email,
                 subject: "Temporary Password"
             };
-            const get_pw = await find.find_pw(emailParameter);
+            const get_pw = await find.send_temporary_pw(emailParameter);
             res.status(200).send("이메일 발송 완료");
             parameter.pw = get_pw.text.slice(20, 29);
             const pbk = await bkfd2Password.encryption(parameter);
             console.log(pbk);
             parameter.pw = pbk.hash;
             parameter.salt = pbk.salt;
-            const result = await model.chang_pw(parameter);
+            const result = await model.change_pw_data(parameter);
             console.log(result);
         } catch (err) {
             console.log("아이디 혹은 이메일이 다릅니다");
@@ -149,7 +149,7 @@ const process = {
             console.log(pbk);
             if(parameter.new_pw == parameter.new_pw_check) {
                 parameter.pw = parameter.new_pw;
-                const result = await model.chang_pw(parameter);
+                const result = await model.change_pw_data(parameter);
                 console.log(result);
             }
             else {
