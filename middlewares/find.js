@@ -4,11 +4,11 @@ const nodemailer = require('nodemailer');
 
 const send_temporary_pw = (parameter) => {
     return new Promise((resolve, reject) => {
-        var variable = "0,1,2,3,4,5,6,7,8,9,a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z".split(","); 
-        var randomPassword = createRandomPassword(variable, 8);
+        let variable = "0,1,2,3,4,5,6,7,8,9,a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z".split(","); 
+        let randomPassword = createRandomPassword(variable, 8);
         function createRandomPassword(variable, passwordLength) { 
-            var randomString = ""; 
-            for (var j=0; j<passwordLength; j++) 
+            let randomString = ""; 
+            for (let j=0; j<passwordLength; j++) 
             randomString += variable[Math.floor(Math.random()*variable.length)];
             return randomString;
         };

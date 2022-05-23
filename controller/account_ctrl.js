@@ -79,13 +79,12 @@ const process = {
                 parameter.salt = pbk.salt;
                 const result = await model.signup_data(parameter);
                 console.log(result);
-                res.redirect("/");
+                res.redirect("/login");
             } else {
                 console.log("비밀번호가 다릅니다.");
             }
         } catch (err) {
             console.log("회원가입 실패")
-            res.redirect("/login");
             throw err;
         }
     },
