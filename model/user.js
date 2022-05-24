@@ -1,5 +1,6 @@
 "use strict";
 
+const req = require('express/lib/request');
 const db = require('../config/dbConn');
 
 const signup_data = (parameter) => {

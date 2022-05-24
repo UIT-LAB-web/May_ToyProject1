@@ -23,5 +23,4 @@ app.use(session({
 app.use("/", main);
 app.use("/board", board);
 
-
 module.exports = app;

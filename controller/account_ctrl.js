@@ -48,6 +48,7 @@ const process = {
                 "pw": req.body.pw
             };
             const result = await model.login_data(parameter);
+            console.log(result)
             const hash = result[0].pw;
             const salt = result[0].salt;
             const pbk = await bkfd2Password.decryption(parameter.pw, salt, hash);
@@ -55,7 +56,7 @@ const process = {
             req.session.save(function() {
                 res.render("main", {
                     output:result[0],
-                    user:result[0], 
+                    user:result[0].id, 
                     is_login:true});
             });
         } catch (err) {

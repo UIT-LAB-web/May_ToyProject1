@@ -17,9 +17,23 @@ const post_upload = (parameter) => {
 }
 
 //게시글 수정하기
+const post_edit = (parameter) => {
+    return new Promise((resolve, rejects) => {
+        db.query('UPDATE board SET title = ?, posting = ?', [parameter.title, parameter.posting], (err, db_data) => {
+            console.log(db_data);
+            if (db_data) {
+                resolve(db_data);
+            }
+            else {
+                rejects(err);
+            }
+        })
+    })
+}
 
 //게시글 불러오기
 
 module.exports = {
-    post_upload
+    post_upload,
+    post_edit
 }
