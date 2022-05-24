@@ -1,31 +1,20 @@
 "use strict";
 
-const multer = require("multer");
+const multer = require('multer');
 
-const storage = multer.diskStorage({
-    destination: function(req, file, cb) {
-        if(file.mimetype == "image/jpeg" || file.mimetype == "image/jpg" || file.mimetype == "image/png"){
-            console.log("이미지 파일 확인");
-            cb.apply(null, "public/images/");
-        }
-        else {
-            console.log("이미지가 아닙니다.");
-        }
+const testUpload = multer.diskStorage({
+    destination(req, file, cb) {
+        cb(null, 'public/images/');
     },
-    filename: function(req, file, cb) {
-        const ext = path.extname(file.originalname);
-        cb(null, path.basename(file.originalname.ext) + "-" + Data.now() + ext);
-    }
+    filename(req, file, cb) {
+        cb(null, `${file.originalname}`);
+    },
 });
 
-const upload = multer ({ 
-    storage: storage,
-    limits: {
-        files: 10
-    }
+const uploadAction = multer({ 
+    storage: testUpload
 });
 
 module.exports = {
-    storage, 
-    upload
+    uploadAction
 }

@@ -53,7 +53,7 @@ const process = {
             const pbk = await bkfd2Password.decryption(parameter.pw, salt, hash);
             console.log(pbk);
             req.session.save(function() {
-                res.render("main",{
+                res.render("main", {
                     output:result[0],
                     user:result[0], 
                     is_login:true});
@@ -79,7 +79,7 @@ const process = {
                 parameter.salt = pbk.salt;
                 const result = await model.signup_data(parameter);
                 console.log(result);
-                res.redirect("/login");
+                res.render("login");
             } else {
                 console.log("비밀번호가 다릅니다.");
             }

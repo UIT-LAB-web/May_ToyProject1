@@ -4,7 +4,7 @@ const db = require("../config/dbConn");
 
 const post_upload = (parameter) => {
     return new Promise((resolve, rejects) => {
-        db.query('INSERT INTO board board(title, posting, image) values(?, ?, ?)', [parameter.title, parameter.posting, parameter.image], (err, db_data) => {
+        db.query('INSERT INTO board(title, posting, images) values(?, ?, ?)', [parameter.title, parameter.posting, parameter.images], (err, db_data) => {
             console.log(db_data);
             if (db_data) {
                 resolve(db_data);

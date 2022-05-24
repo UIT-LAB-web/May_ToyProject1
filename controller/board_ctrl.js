@@ -1,7 +1,6 @@
 "use strict";
 
 const model = require("../model/user_board");
-const upload = require("../middlewares/image");
 
 const output = {
     upload: (req, res) => {
@@ -16,10 +15,10 @@ const process = {
             const parameter = {
                 "title": req.body.title,
                 "posting": req.body.posting,
-                "images": req.files
+                "images": req.file.filename
             }
-            // const result = await model.image_upload(parameter);
-            // console.log(result);
+            const result = await model.post_upload(parameter);
+            console.log(result);
             res.render("main");
         } catch (err) {
             console.log("게시 오류");
@@ -30,6 +29,7 @@ const process = {
 
 
     //게시글 읽어오기
+    
 };
 
 module.exports = {

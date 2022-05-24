@@ -1,12 +1,11 @@
-"use strict";
 
 const express = require("express");
 const router = express.Router();
 const board_ctrl = require("../controller/board_ctrl");
-const { upload } = require("../middlewares/image");
+const multer = require("../middlewares/image");
 
-router.get("/board", board_ctrl.output.upload);
+router.get("/", board_ctrl.output.upload);
 
-router.post("/board",upload.array("images"), board_ctrl.process.upload);
+router.post("/", multer.uploadAction.array("images", 10), board_ctrl.process.upload);
 
 module.exports = router;
