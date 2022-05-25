@@ -53,12 +53,10 @@ const process = {
             const salt = result[0].salt;
             const pbk = await bkfd2Password.decryption(parameter.pw, salt, hash);
             console.log(pbk);
-            req.session.save(function() {
-                res.render("main", {
-                    output:result[0],
-                    user:result[0].id, 
-                    is_login:true});
-            });
+            req.session.user = { id: parameter.id }
+            res.render("main");
+            console.log(req.session.user.id)
+            console.log(req.session)
         } catch (err) {
             console.log("로그인 실패");
             res.render("login");

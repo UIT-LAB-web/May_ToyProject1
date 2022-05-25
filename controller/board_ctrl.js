@@ -3,15 +3,26 @@
 const model = require("../model/user_board");
 
 const output = {
+    main: (req, res) => {
+        res.render("/main");
+    },
     upload: (req, res) => {
-        res.render("/board");
+        res.send("/upload");
     } ,
     edit: (req, res) => {
-        res.render("/edit");
+        res.send("/edit");
+    },
+    loading: (req, res) => {
+        res.render("/loading");
     }
 }
 
 const process = {
+    main: async (req, res) => {
+        const result = await model.post_main(req.session.user.id);
+        console.log(result);
+        res.render("main");
+    },
     upload: async (req, res) => {
         try {
             const files = req.files;
@@ -27,14 +38,10 @@ const process = {
                 "posting": req.body.posting,
                 "images": string
             }
-            if(string == "") {
-                console.log("파일 없음");
-            }
-            else{
-                const result = await model.post_upload(parameter);
-                console.log(result);
-                res.render("main");
-            }
+            console.log(parameter)
+            const result = await model.post_upload(req.session.user.id, parameter);
+            console.log(result);
+            res.render("main");
         } catch (err) {
             console.log("게시 오류");
             res.render("board");
@@ -46,7 +53,7 @@ const process = {
                 "title": req.body.title,
                 "posting": req.body.posting
             }
-            const edit = await model.post_edit(parameter);
+            const edit = await model.post_edit(req.session.user.id, parameter);
             console.log(edit);
             res.render("main");
         } catch (err) {
@@ -54,10 +61,11 @@ const process = {
             res.render("edit");
         }
     },
-    //게시글 읽어오기
     loading: async (req, res) => {
         try {
-            
+            const result = await model.post_loading(req.session.user.id);
+            console.log(result);
+            res.render("main");
         } catch (err) {
             console.log("")
         }
