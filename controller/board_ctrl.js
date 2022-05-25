@@ -1,28 +1,24 @@
-"use strict";
-
 const model = require("../model/user_board");
 
 const output = {
-    main: (req, res) => {
-        res.render("/main");
+    main: async (req, res) => {
+        const result = await model.post_main(req.session.user.id);
+        console.log(result);
+        res.send(result);
     },
-    upload: (req, res) => {
-        res.send("/upload");
-    } ,
-    edit: (req, res) => {
-        res.send("/edit");
-    },
-    loading: (req, res) => {
-        res.render("/loading");
+    loading: async (req, res) => {
+        try {
+            console.log(req.params.num)
+            const result = await model.post_loading(req.params.num);
+            console.log(result);
+            res.send(result);
+        } catch (err) {
+            console.log("")
+        }
     }
 }
 
 const process = {
-    main: async (req, res) => {
-        const result = await model.post_main(req.session.user.id);
-        console.log(result);
-        res.render("main");
-    },
     upload: async (req, res) => {
         try {
             const files = req.files;
@@ -41,10 +37,10 @@ const process = {
             console.log(parameter)
             const result = await model.post_upload(req.session.user.id, parameter);
             console.log(result);
-            res.render("main");
+            res.send("main");
         } catch (err) {
             console.log("게시 오류");
-            res.render("board");
+            res.send("board");
         }
     },
     edit: async (req, res) => {
@@ -55,19 +51,10 @@ const process = {
             }
             const edit = await model.post_edit(req.session.user.id, parameter);
             console.log(edit);
-            res.render("main");
+            res.send("main");
         } catch (err) {
             console.log("수정 오류");
-            res.render("edit");
-        }
-    },
-    loading: async (req, res) => {
-        try {
-            const result = await model.post_loading(req.session.user.id);
-            console.log(result);
-            res.render("main");
-        } catch (err) {
-            console.log("")
+            res.send("edit");
         }
     }
 };

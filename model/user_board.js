@@ -1,5 +1,3 @@
-"use strict";
-
 const db = require("../config/dbConn");
 
 const post_main = (id) => {
