@@ -7,36 +7,36 @@ const find = require("../middlewares/find");
 const output = {
     main: (req, res) => {
         if(req.session.is_login == true){
-            res.render("main", {
+            res.send("main", {
                 is_login: req.session.is_login,
                 name: req.session.name
             });
         } else{
-            res.render("main", {
+            res.send("main", {
                 is_login: false
             });
         }
     },
     login: (req, res) => {
-        res.render("login");
+        res.send("login");
     },
     signup: (req, res) => {
-        res.render("signup");
+        res.send("signup");
     },
     logout: (req, res) => {
         req.session.destroy(function(err) {
             if(err) throw err;
-            res.redirect("/");
+            res.send("/");
         })
     },
     find: (req, res) => {
-        res.render("find");
+        res.send("find");
     },
     find_id: (req, res) => {
-        res.render("find_id");
+        res.send("find_id");
     },
     find_pw: (req, res) => {
-        res.render("find_pw");
+        res.send("find_pw");
     }
 };
 
@@ -54,12 +54,12 @@ const process = {
             const pbk = await bkfd2Password.decryption(parameter.pw, salt, hash);
             console.log(pbk);
             req.session.user = { id: parameter.id }
-            res.render("main");
+            res.send("main");
             console.log(req.session.user.id)
             console.log(req.session)
         } catch (err) {
             console.log("로그인 실패");
-            res.render("login");
+            res.send("login");
         };
     },
     signup: async (req, res) => {
@@ -78,12 +78,13 @@ const process = {
                 parameter.salt = pbk.salt;
                 const result = await model.signup_data(parameter);
                 console.log(result);
-                res.render("login");
+                res.send("login");
             } else {
                 console.log("비밀번호가 다릅니다.");
             }
         } catch (err) {
-            console.log("회원가입 실패")
+            console.log("회원가입 실패");
+            res.send("signup");
             throw err;
         }
     },

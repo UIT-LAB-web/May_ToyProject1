@@ -3,13 +3,14 @@
 const req = require('express/lib/request');
 const db = require('../config/dbConn');
 
-const signup_data = (parameter) => {
+const signup_data = (parameter) => {    //회원가입
     return new Promise((resolve, rejects) => {
         db.query('SELECT * FROM member where id = ?', [parameter.id], (err, db_data) => {
             console.log(db_data)
             if (db_data.length == 0) {
                 console.log(db_data)
-                db.query('INSERT INTO member(name, email, id, pw, salt) values(?,?,?,?,?)', [parameter.name, parameter.email, parameter.id, parameter.pw, parameter.salt]);
+                db.query('INSERT INTO member(name, email, id, pw, salt) values(?,?,?,?,?)', 
+                [parameter.name, parameter.email, parameter.id, parameter.pw, parameter.salt]);
                 resolve(db_data);
             }
             else {
@@ -19,7 +20,7 @@ const signup_data = (parameter) => {
     })
 }
 
-const login_data = (parameter) => {
+const login_data = (parameter) => {     //로그인
     return new Promise((resolve, rejects) => {
         db.query('SELECT pw, salt FROM member where id = ?', [parameter.id], (err, db_data) => {
             if(db_data){
@@ -32,7 +33,7 @@ const login_data = (parameter) => {
     })
 }
 
-const find_id_data = (parameter) => {
+const find_id_data = (parameter) => {      //아이디 찾기
     return new Promise((resolve, reject) => {
         db.query('SELECT id FROM member where email = ?', [parameter.email], (err, db_data) => {
             if(db_data) {
@@ -45,9 +46,10 @@ const find_id_data = (parameter) => {
     })
 }
 
-const change_pw_data = (parameter) => {
+const change_pw_data = (parameter) => {     //비밀번호 변경
     return new Promise((resolve, reject) => {
-        db.query('UPDATE member SET pw = ?, salt = ? where id = ?',[parameter.pw, parameter.salt, parameter.id], (err, db_data) => {
+        db.query('UPDATE member SET pw = ?, salt = ? where id = ?',
+        [parameter.pw, parameter.salt, parameter.id], (err, db_data) => {
             if(db_data) {
                 resolve(db_data);
             }
