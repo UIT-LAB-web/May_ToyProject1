@@ -8,5 +8,6 @@ router.get("/loading/:num", board_ctrl.output.loading);
 
 router.post("/upload", multer.uploadAction.array("images", 10), board_ctrl.process.upload);
 router.post("/edit/:num", board_ctrl.process.edit);
+router.post("/delete/:num", board_ctrl.process.delete);
 
 module.exports = router;

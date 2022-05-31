@@ -13,7 +13,7 @@ const output = {
             console.log(result);
             res.send(result);
         } catch (err) {
-            console.log("")
+            console.log("로딩 불가");
         }
     }
 }
@@ -55,6 +55,16 @@ const process = {
         } catch (err) {
             console.log("수정 오류");
             res.send("edit");
+        }
+    },
+    delete: async (req, res) => {
+        try {
+            const result = await model.post_delete(req.params.num);
+            console.log(result);
+            res.send(result);
+        } catch (err) {
+            console.log("삭제 불가");
+            res.send("loading");
         }
     }
 };

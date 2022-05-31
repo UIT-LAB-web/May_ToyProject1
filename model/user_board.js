@@ -58,9 +58,24 @@ const post_loading = (id) => {
     })
 }
 
+const post_delete = (id) => {
+    return new Promise((resolve, rejects) => {
+        db.query('DELETE FROM board where post_id = ?', [id], (err, db_data) => {
+            console.log(db_data);
+            if (db_data) {
+                resolve(db_data);
+            }
+            else {
+                rejects(err);
+            }
+        })
+    })
+}
+
 module.exports = {
     post_main,
     post_upload,
     post_edit,
-    post_loading
+    post_loading,
+    post_delete
 }
