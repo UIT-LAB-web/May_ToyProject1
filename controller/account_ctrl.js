@@ -5,6 +5,9 @@ const bkfd2Password = require('../middlewares/pbk');
 const find = require("../middlewares/find");
 
 const output = {
+    test: (req, res) => {
+        res.send("connect check");
+    },
     main: (req, res) => {
         if(req.session.is_login == true){
             res.send("main", {

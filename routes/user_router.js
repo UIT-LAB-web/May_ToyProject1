@@ -11,6 +11,7 @@ router.get("/logout", account_ctrl.output.logout);
 router.get("/find", account_ctrl.output.find);
 router.get("/find_id", account_ctrl.output.find_id);
 router.get("/find_pw", account_ctrl.output.find_pw);
+router.get("/test", account_ctrl.output.test);
 
 router.post("/login", account_ctrl.process.login);
 router.post("/signup", account_ctrl.process.signup);
